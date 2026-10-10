@@ -9,7 +9,7 @@ description = "A decoder-only transformer implemented from first principles"
 requires-python = ">=3.11"
 license = "MIT"
 dependencies = [
-  "numpy>=1.26,<3",
+  "numpy>=1.26,<2",
   "pydantic>=2.9,<3",
   "pydantic-settings>=2.5,<3",
   "PyYAML>=6,<7",
