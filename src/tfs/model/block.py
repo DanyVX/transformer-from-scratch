@@ -2,7 +2,7 @@
 
 from torch import Tensor, nn
 
-from tfs.model.attention import KVCache, CausalSelfAttention
+from tfs.model.attention import CausalSelfAttention, KVCache
 from tfs.model.mlp import GPTMLP
 
 
