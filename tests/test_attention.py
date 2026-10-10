@@ -74,7 +74,7 @@ def test_attention_rejects_invalid_geometry_and_context() -> None:
     with pytest.raises(ValueError):
         CausalSelfAttention(31, 4, 8)
     with pytest.raises(ValueError):
-        CausalSelfAttention(30, 5, 8, positional_encoding="rope")
+        CausalSelfAttention(30, 6, 8, positional_encoding="rope")
     module = _module()
     with pytest.raises(ValueError, match="block_size"):
         module(torch.randn(1, 13, 32))
