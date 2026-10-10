@@ -14,7 +14,8 @@ The demo trains the configured **tiny** model on a synthetic text corpus, then p
 | --- | --- |
 | Byte-level BPE synthetic CPU throughput | [Measured, 3 corpora](docs/RESULTS.md) |
 | Synthetic CPU model train/validation loss | [One-step measured evidence](docs/RESULTS.md) |
-| GPT-2 (124M) pretrained reference-logit match | **TBD (not yet measured)** |
+| Offline small randomly initialized HF GPT-2 logit parity | **Passed**, max absolute error 5.96×10⁻⁸ (see docs/RESULTS.md) |
+| GPT-2 (124M) pretrained reference-logit match | **Not measured**, user-provided licensed weights required |
 | RoPE / naive-vs-fused / cache equivalence | Covered in the CPU test suite |
 | KV-cache speedup | Measured synthetic CPU smoke: 1.32–1.60× at contexts 8/16/32, two repeats (see docs/RESULTS.md and raw JSON) |
 | Scaling and ablations | Measured 2-step scaling smoke (two seeds); ablation outcomes remain unmeasured; see docs/RESULTS.md |

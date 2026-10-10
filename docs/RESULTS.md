@@ -29,6 +29,7 @@ The three corpora are repeated literals in bench/tokenizer.py. The benchmark use
 | Deterministic resume and checkpoint recovery | Automated CPU tests passed |
 | Tiny trained model validation loss | Measured below, synthetic one-step run |
 | Scaling and KV-cache speed | Measured below, short synthetic benchmarks |
+| Small randomized HF GPT-2 reference-logit match | **Passed**, max absolute difference 5.96046448×10⁻⁸ |
 | Released GPT-2 124M pretrained-logit match | **Not tested**, requires large externally supplied weights |
 | Real-data generalization and safety | **Not measured** |
 
@@ -68,3 +69,7 @@ All values below are from `eval/study.py` and `bench/kv_cache.py`, recorded in [
 | 32 | 4.395 | 2.911 | 1.51× |
 
 To regenerate tables, run `python results/study_render.py results/scaling-ci.json`. For KV, inspect the measured JSON. No confidence interval is claimed with two timing repeats.
+
+## v0.1 offline randomly initialized Hugging Face GPT-2 reference test
+
+On the GitHub Actions [reference job](https://github.com/DanyVX/transformer-from-scratch/actions/runs/38048948620) at source commit `6adf6857b1f410e1ccbc4e72a00663c618e96775`, the small (2-layer, 32-width, 256-vocabulary) model and the independent Hugging Face GPT2LMHeadModel were run with seed 1234 and three deterministic prompts. The **observed maximum absolute logit difference was 5.96046448 × 10⁻⁸**; the test passed with a 1e-4 absolute/relative per-logit tolerance. Dependencies included transformers==4.38.2, torch==2.5.1+cpu and Python 3.11. No third-party model weights or external training data were downloaded. This **does not verify 124M released pretrained GPT-2 weights**, nor tokenizer ID equivalence with tiktoken.

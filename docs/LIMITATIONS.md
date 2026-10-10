@@ -4,7 +4,7 @@ The **M0–M8 source implementation, CPU tests, basic benchmarks and one-step sy
 
 ## Unverified or deliberately out of scope
 
-- **GPT-2 124M released pretrained-logit parity:** no official large pretrained weight artifact was fetched. The weight-mapping script accepts a user-supplied, licensed local reference. A separate tiny, randomly initialized HuggingFace reference test validates the conversion mechanics but is not evidence for the released weights.
+- **GPT-2 124M released pretrained-logit parity:** no official large pretrained weight artifact was fetched. The weight-mapping script accepts a user-supplied, licensed local reference. An offline 2-layer, randomly initialized Hugging Face reference test passed at maximum absolute logit difference 5.96×10⁻⁸; this is not evidence for the released weights.
 - **Real-corpus quality:** no genuine TinyShakespeare, TinyStories or other licensed training dataset was downloaded or redistributed. Synthetic train/validation samples cannot establish general language quality, safety, or cross-corpus generalization.
 - **Tokenizer reference equivalence:** byte-BPE roundtrips and deterministic merges are tested, but official GPT-2/tiktoken token-ID agreement has not been confirmed. Training pair frequencies are rescanned at each merge and not optimized for large corpora.
 - **Performance:** measured tokenizer throughput, KV-cache speedups and scaling studies use small synthetic samples with too few repetitions for statistically reliable speed or scaling claims; GPU benchmarks, mixed precision, torch.compile and distributed training have not been verified.
