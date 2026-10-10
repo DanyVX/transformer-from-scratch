@@ -46,13 +46,19 @@ def main() -> None:
     write_result(
         args.output,
         {"effective_vocab_size": tokenizer.vocab_size, "corpora": metrics},
-        config={"profile": "synthetic-tokenizer-smoke", "vocab_size_requested": vocab_size,
-                "iterations": iterations, "seed": 0, "data": "synthetic strings in script"},
+        config={
+            "profile": "synthetic-tokenizer-smoke",
+            "vocab_size_requested": vocab_size,
+            "iterations": iterations,
+            "seed": 0,
+            "data": "synthetic strings in script",
+        },
     )
     if args.print_json:
-        print("TOKENIZER_BENCHMARK_JSON=" + json.dumps(
-            json.loads(args.output.read_text(encoding="utf-8")), ensure_ascii=False
-        ))
+        print(
+            "TOKENIZER_BENCHMARK_JSON="
+            + json.dumps(json.loads(args.output.read_text(encoding="utf-8")), ensure_ascii=False)
+        )
     else:
         print(f"Wrote measured results to {args.output}")
 

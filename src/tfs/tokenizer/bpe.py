@@ -78,8 +78,7 @@ class ByteBPETokenizer:
             self.vocab.append(self.vocab[left] + self.vocab[right])
 
         self.special_ids = {
-            token: len(self.vocab) + offset
-            for offset, token in enumerate(self.special_tokens)
+            token: len(self.vocab) + offset for offset, token in enumerate(self.special_tokens)
         }
         self.id_to_special = {id_: token for token, id_ in self.special_ids.items()}
 

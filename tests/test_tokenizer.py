@@ -118,9 +118,7 @@ def test_long_repeated_input(tokenizer: ByteBPETokenizer) -> None:
     assert tokenizer.decode_bytes(tokenizer.encode_bytes(data)) == data
 
 
-def test_save_load_and_tamper_detection(
-    tokenizer: ByteBPETokenizer, tmp_path: Path
-) -> None:
+def test_save_load_and_tamper_detection(tokenizer: ByteBPETokenizer, tmp_path: Path) -> None:
     tokenizer.save(tmp_path)
     reloaded = ByteBPETokenizer.load(tmp_path)
     assert reloaded.merges == tokenizer.merges
