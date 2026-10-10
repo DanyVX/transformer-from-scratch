@@ -20,17 +20,19 @@ Synthetic corpus and a single short timing run. Do not extrapolate to large data
 
 The three corpora are repeated literals in bench/tokenizer.py. The benchmark used a tokenizer fitted on all three synthetic samples, a requested/effective vocabulary size of 360, and four encoding iterations per sample. These are **tiny in-sample throughput measurements**, not held-out compression or statistical evidence. Urdu is UTF-8 multibyte text, so bytes/token and tokens/character answer different questions.
 
-## Future milestones
+## Milestone verification
 
-| Metric | Result |
+| Check | Result |
 | --- | --- |
-| GPT-2 (124M) reference-logit matching | TBD (not yet measured) |
-| Causal-mask leakage test | TBD (not yet measured) |
-| KV-cache generation speedup | TBD (not yet measured) |
-| Tiny GPT validation loss and bits-per-character | TBD (not yet measured) |
-| Scaling, ablation seed variance, out-of-sample tokenizer comparison | TBD (not yet measured) |
+| Causal-mask and future-token isolation | Automated CPU tests passed |
+| Naive vs SDPA forward matching, KV-cache equivalence | Automated CPU tests passed |
+| Deterministic resume and checkpoint recovery | Automated CPU tests passed |
+| Tiny trained model validation loss | Measured below, synthetic one-step run |
+| Scaling and KV-cache speed | Measured below, short synthetic benchmarks |
+| Released GPT-2 124M pretrained-logit match | **Not tested**, requires large externally supplied weights |
+| Real-data generalization and safety | **Not measured** |
 
-M0 parameter counts are structural predictions, not benchmarks. Report uncertainty and negative outcomes for all future data-dependent claims.
+All stored measurements correspond to their listed Git commit and runner. The repository's tests are updated over time, so a historical raw JSON result is not automatically a result from the latest source.
 
 ## M8 CPU model pipeline smoke (measured)
 

@@ -1,25 +1,22 @@
 # Changelog
 
-All notable changes will follow Keep a Changelog.
+All notable changes follow Keep a Changelog.
 
-## [Unreleased]
+## [0.1.0] - 2026-10-10
 
-### Added
-- M0 hardware-aware configuration, environment provenance, CLI, test and CI scaffold.
-- Design, limitations, attribution, data and model-card documentation.
+### Implemented and tested
 
-There is no release or trained model yet.
+- M0: hardware-aware configuration, environment provenance, package, CLI and CI.
+- M1: deterministic byte-level BPE with Unicode/raw byte tests and synthetic benchmark.
+- M2: explicit causal attention, PyTorch SDPA comparison, RoPE, future-token isolation.
+- M3: GPT-2-shaped decoder, tied embeddings, optional HuggingFace weight mapping.
+- M4: document-split, hashed memmapped token shards and reproducible samplers.
+- M5: AdamW, warmup/cosine schedule, accumulation, gradient clipping, RNG/exact-resume checkpointing.
+- M6: KV-cached sampling, context rollover, EOS and incremental UTF-8 decoding.
+- M7: seeded CPU-only scaling and architecture ablation study harness.
+- M8: synthetic one-step training/generation demo, evidence-backed benchmark JSON, documentation.
+- Release hardening: wheel-bundled YAML profiles, optional offline randomly initialized HF-reference test, documentation cleanup.
 
-### M1 tokenizer milestone
+### Known gaps
 
-- Implemented deterministic byte-level BPE training, heap/linked-neighbor merge-ranked encoding, opt-in special tokens, raw-byte round-trips, JSON/merges save-load and tests.
-- Added synthetic-only benchmark with measured environment provenance and a table renderer.
-- Reference GPT-2 token-level equivalence, large-corpus training efficiency, and model stages are still outstanding.
-
-### Added (M2–M8)
-
-- Packed-QKV causal attention, fused SDPA comparison, RoPE, GPT model blocks, GELU MLP and reference-weight conversion.
-- Checked, document-separated token shards; reproducible gradient accumulation and atomic full-state checkpoints.
-- KV-cached generation, greedy/top-k/top-p sampling, repetition penalties and streaming UTF-8.
-- Synthetic, seeded model scaling and architecture-ablation experiments, plus a small CPU training demo.
-- This work is a pre-release milestone. True GPT-2 124M pretrained-logit equivalence and large-corpus experiments remain unverified.
+Released GPT-2 124M pretrained reference-logit parity, third-party real-corpus quality, and GPU training/benchmark coverage are **not verified**. This release contains source code and synthetic smoke experiments, not pretrained model weights.
