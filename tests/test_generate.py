@@ -52,8 +52,7 @@ def test_empty_and_ragged_prompts() -> None:
     with pytest.raises(ValueError, match="start_token"):
         generate(model, [], max_new_tokens=2)
     result = generate_batch(
-        model, [[2, 3], [], [1] * 12],
-        max_new_tokens=3, start_token_id=0, temperature=0
+        model, [[2, 3], [], [1] * 12], max_new_tokens=3, start_token_id=0, temperature=0
     )
     assert [len(row) for row in result] == [5, 4, 15]
 

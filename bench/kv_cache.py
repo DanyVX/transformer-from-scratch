@@ -34,8 +34,12 @@ def run(context: int, repeats: int) -> dict[str, float | int]:
                     else:
                         model(tokens[:, :index])
             times["cached" if cache_on else "full"] = (time.perf_counter() - start) / repeats
-    return {"context": context, "full_seconds": times["full"], "cached_seconds": times["cached"],
-            "speedup": times["full"] / times["cached"]}
+    return {
+        "context": context,
+        "full_seconds": times["full"],
+        "cached_seconds": times["cached"],
+        "speedup": times["full"] / times["cached"],
+    }
 
 
 def main() -> None:

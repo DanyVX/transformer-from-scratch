@@ -40,7 +40,7 @@ def generate(
     was_training = model.training
     model.eval()
     try:
-        window = sequence[-model.config.block_size:]
+        window = sequence[-model.config.block_size :]
         prediction = model(
             torch.tensor([window], device=device, dtype=torch.long), use_cache=use_cache
         )
@@ -48,7 +48,9 @@ def generate(
         for step in range(max_new_tokens):
             next_token = sample_next(
                 prediction.logits[:, -1, :],
-                temperature=temperature, top_k=top_k, top_p=top_p,
+                temperature=temperature,
+                top_k=top_k,
+                top_p=top_p,
                 previous=torch.tensor([sequence], device=device, dtype=torch.long),
                 repetition_penalty=repetition_penalty,
                 generator=rng if seed is not None else None,
@@ -60,12 +62,10 @@ def generate(
             if step + 1 == max_new_tokens:
                 break
             if use_cache and cache is not None and cache[0][0].shape[-2] < model.config.block_size:
-                prediction = model(
-                    next_token.view(1, 1), past_key_values=cache, use_cache=True
-                )
+                prediction = model(next_token.view(1, 1), past_key_values=cache, use_cache=True)
                 cache = prediction.past_key_values
             else:
-                window = sequence[-model.config.block_size:]
+                window = sequence[-model.config.block_size :]
                 prediction = model(
                     torch.tensor([window], dtype=torch.long, device=device), use_cache=use_cache
                 )

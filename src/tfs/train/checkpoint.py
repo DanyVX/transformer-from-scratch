@@ -6,7 +6,7 @@ import os
 import random
 import tempfile
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import torch
@@ -57,4 +57,4 @@ def load_checkpoint(path: Path, expected_fingerprint: str) -> dict[str, Any]:
     state = torch.load(path, map_location="cpu", weights_only=False)
     if state.get("fingerprint") != expected_fingerprint:
         raise ValueError("Checkpoint configuration mismatch; refusing unsafe resume")
-    return state
+    return cast(dict[str, Any], state)
