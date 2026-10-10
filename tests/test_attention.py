@@ -87,8 +87,10 @@ def test_rope_norm_and_relative_offset() -> None:
     a, _ = apply_rope(q, k, offset=2)
     b, _ = apply_rope(q, k, offset=7)
     torch.testing.assert_close(a.norm(dim=-1), b.norm(dim=-1), atol=1e-6, rtol=1e-6)
-    assert torch.equal(rotate_half(torch.tensor([[[[1., 2., 3., 4.]]]])),
-                       torch.tensor([[[[-2., 1., -4., 3.]]]]))
+    assert torch.equal(
+        rotate_half(torch.tensor([[[[1.0, 2.0, 3.0, 4.0]]]])),
+        torch.tensor([[[[-2.0, 1.0, -4.0, 3.0]]]]),
+    )
 
 
 def test_rope_shift_invariant_dot_product() -> None:
