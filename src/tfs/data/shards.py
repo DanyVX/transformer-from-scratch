@@ -53,8 +53,7 @@ def save_token_shards(
         for document in docs:
             encoded = list(encode(document))
             if any(
-                not isinstance(token, int) or token < 0 or token >= vocab_size
-                for token in encoded
+                not isinstance(token, int) or token < 0 or token >= vocab_size for token in encoded
             ):
                 raise ValueError("Tokenizer emitted out-of-vocabulary ID")
             token_list.extend(encoded)
@@ -67,7 +66,9 @@ def save_token_shards(
         if not isinstance(shards, dict):
             raise AssertionError("Corrupt manifest builder")
         shards[name] = {
-            "file": path.name, "tokens": int(data.size), "sha256": checksum,
+            "file": path.name,
+            "tokens": int(data.size),
+            "sha256": checksum,
             "documents": len(docs),
         }
     (directory / "manifest.json").write_text(
@@ -104,8 +105,12 @@ class WindowSampler:
     """
 
     def __init__(
-        self, tokens: np.ndarray, block_size: int, batch_size: int,
-        seed: int = 42, sequential: bool = False,
+        self,
+        tokens: np.ndarray,
+        block_size: int,
+        batch_size: int,
+        seed: int = 42,
+        sequential: bool = False,
     ) -> None:
         if block_size < 1 or batch_size < 1:
             raise ValueError("block_size and batch_size must be positive")
@@ -127,9 +132,9 @@ class WindowSampler:
         else:
             starts = self.rng.integers(0, upper, size=self.batch_size)
         x = np.stack([self.tokens[i : i + self.block_size] for i in starts]).astype(np.int64)
-        y = np.stack(
-            [self.tokens[i + 1 : i + self.block_size + 1] for i in starts]
-        ).astype(np.int64)
+        y = np.stack([self.tokens[i + 1 : i + self.block_size + 1] for i in starts]).astype(
+            np.int64
+        )
         return x, y
 
     def state_dict(self) -> dict[str, object]:
