@@ -1,0 +1,265 @@
+{
+  "config": {
+    "steps": 2,
+    "synthetic_only": true,
+    "train_bytes": 11610,
+    "validation_bytes": 3540
+  },
+  "environment": {
+    "architecture": "x86_64",
+    "cpu_count": 4,
+    "cuda_available": false,
+    "cuda_version": null,
+    "disk_free_bytes": 90930032640,
+    "docker_available": true,
+    "ffmpeg_available": false,
+    "git_available": true,
+    "git_commit": "344df54bbe0fb0762989d6286646b80b2c9c3259",
+    "gpu": null,
+    "internet_access": "not tested (run network check separately)",
+    "memory_bytes": 16765378560,
+    "os": "Linux",
+    "pip_available": true,
+    "python": "3.12.15",
+    "torch": "2.5.1+cpu",
+    "uv_available": false
+  },
+  "metrics": {
+    "seeds": [
+      11,
+      29
+    ],
+    "study": "scaling",
+    "trials": [
+      {
+        "bits_per_byte": 7.969429139264885,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 16,
+            "n_head": 4,
+            "n_layer": 1,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 11,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 1446912,
+        "params": 7536,
+        "perplexity_per_byte": 250.6324036953851,
+        "seed": 11,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.523987338553726,
+        "validation_windows": 442,
+        "variant": "width16_layers1"
+      },
+      {
+        "bits_per_byte": 7.951943362765675,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 16,
+            "n_head": 4,
+            "n_layer": 1,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 29,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 1446912,
+        "params": 7536,
+        "perplexity_per_byte": 247.61301941347247,
+        "seed": 29,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.511867121873398,
+        "validation_windows": 442,
+        "variant": "width16_layers1"
+      },
+      {
+        "bits_per_byte": 7.915174094572839,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 24,
+            "n_head": 4,
+            "n_layer": 2,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 11,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 3999744,
+        "params": 20832,
+        "perplexity_per_byte": 241.38196776301197,
+        "seed": 11,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.486380607294281,
+        "validation_windows": 442,
+        "variant": "width24_layers2"
+      },
+      {
+        "bits_per_byte": 7.898490306637291,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 24,
+            "n_head": 4,
+            "n_layer": 2,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 29,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 3999744,
+        "params": 20832,
+        "perplexity_per_byte": 238.60662769901325,
+        "seed": 29,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.474816286725696,
+        "validation_windows": 442,
+        "variant": "width24_layers2"
+      },
+      {
+        "bits_per_byte": 7.848764070973789,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 32,
+            "n_head": 4,
+            "n_layer": 3,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 11,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 8951808,
+        "params": 46624,
+        "perplexity_per_byte": 230.52254959001442,
+        "seed": 11,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.44034868667568,
+        "validation_windows": 442,
+        "variant": "width32_layers3"
+      },
+      {
+        "bits_per_byte": 7.822514593989615,
+        "config": {
+          "model": {
+            "activation": "gelu",
+            "bias": true,
+            "block_size": 8,
+            "dropout": 0,
+            "n_embd": 32,
+            "n_head": 4,
+            "n_layer": 3,
+            "normalization": "pre",
+            "positional_encoding": "learned",
+            "scale_residual_init": true,
+            "tie_embeddings": true,
+            "vocab_size": 256
+          },
+          "profile": "synthetic-study",
+          "train": {
+            "batch_size": 2,
+            "device": "cpu",
+            "gradient_accumulation": 1,
+            "learning_rate": 0.002,
+            "max_steps": 2,
+            "min_learning_rate": 0.0002,
+            "seed": 29,
+            "warmup_steps": 2
+          }
+        },
+        "estimated_train_flops_6NT": 8951808,
+        "params": 46624,
+        "perplexity_per_byte": 226.36617596341264,
+        "seed": 29,
+        "train_tokens": 32,
+        "val_loss_nats_per_byte": 5.4221539357129265,
+        "validation_windows": 442,
+        "variant": "width32_layers3"
+      }
+    ]
+  },
+  "schema_version": 1
+}

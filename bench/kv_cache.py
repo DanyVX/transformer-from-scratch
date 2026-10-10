@@ -1,6 +1,7 @@
 """Measured CPU KV-cache incremental speed comparison with saved provenance."""
 
 import argparse
+import json
 import time
 from pathlib import Path
 
@@ -12,6 +13,7 @@ from tfs.provenance import write_result
 
 
 def run(context: int, repeats: int) -> dict[str, float | int]:
+    torch.set_num_threads(1)
     torch.manual_seed(9)
     cfg = ModelConfig(vocab_size=256, block_size=context + 12, n_layer=2, n_head=4, n_embd=64)
     model = GPT(cfg).eval()
@@ -45,9 +47,12 @@ def run(context: int, repeats: int) -> dict[str, float | int]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path("results/kv-cache.json"))
+    parser.add_argument("--print-json", action="store_true")
     args = parser.parse_args()
     metrics = [run(context, repeats=2) for context in (8, 16, 32)]
     write_result(args.output, {"timings": metrics}, config={"seed": 9, "repeats": 2})
+    if args.print_json:
+        print("KV_CACHE_JSON=" + json.dumps(json.loads(args.output.read_text(encoding="utf-8"))))
 
 
 if __name__ == "__main__":

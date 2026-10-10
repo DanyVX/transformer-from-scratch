@@ -5,6 +5,7 @@ Every trial records the sample budget, seed, architecture and runner metadata.
 """
 
 import argparse
+import json
 import math
 import statistics
 from pathlib import Path
@@ -142,6 +143,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--study", choices=["scaling", "ablations"], default="scaling")
     parser.add_argument("--steps", type=int, default=12)
+    parser.add_argument("--print-json", action="store_true")
     parser.add_argument("--output", type=Path, default=Path("results/synthetic-study.json"))
     args = parser.parse_args()
     if args.steps < 1:
@@ -169,6 +171,10 @@ def main() -> None:
         },
     )
     print(f"Saved {len(trials)} measured trials: {args.output}")
+    if args.print_json:
+        print(
+            "SCALING_STUDY_JSON=" + json.dumps(json.loads(args.output.read_text(encoding="utf-8")))
+        )
 
 
 if __name__ == "__main__":
