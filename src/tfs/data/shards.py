@@ -52,7 +52,10 @@ def save_token_shards(
         token_list: list[int] = []
         for document in docs:
             encoded = list(encode(document))
-            if any(not isinstance(token, int) or token < 0 or token >= vocab_size for token in encoded):
+            if any(
+                not isinstance(token, int) or token < 0 or token >= vocab_size
+                for token in encoded
+            ):
                 raise ValueError("Tokenizer emitted out-of-vocabulary ID")
             token_list.extend(encoded)
             token_list.append(separator_id)
