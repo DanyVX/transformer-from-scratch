@@ -112,7 +112,7 @@ class ByteBPETokenizer:
         for rank in range(max_merges):
             frequencies: Counter[tuple[int, int]] = Counter()
             for chunk in chunks:
-                frequencies.update(zip(chunk, chunk[1:]))
+                frequencies.update(zip(chunk, chunk[1:], strict=False))
             if not frequencies:
                 break
             best = min(frequencies, key=lambda pair: (-frequencies[pair], pair))
