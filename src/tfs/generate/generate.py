@@ -1,6 +1,7 @@
 """Correct incremental autoregression with bounded context and stop tokens."""
 
 from collections.abc import Sequence
+from typing import Any
 
 import torch
 
@@ -30,9 +31,12 @@ def generate(
     """
     if max_new_tokens < 0:
         raise ValueError("max_new_tokens cannot be negative")
-    if not prompt and start_token_id is None:
-        raise ValueError("Empty prompt requires start_token_id")
-    sequence = list(prompt) if prompt else [start_token_id]  # type: ignore[list-item]
+    if not prompt:
+        if start_token_id is None:
+            raise ValueError("Empty prompt requires start_token_id")
+        sequence: list[int] = [start_token_id]
+    else:
+        sequence = list(prompt)
     device = next(model.parameters()).device
     rng = torch.Generator(device=device)
     if seed is not None:
@@ -76,7 +80,7 @@ def generate(
 
 
 def generate_batch(
-    model: GPT, prompts: Sequence[Sequence[int]], **kwargs: object
+    model: GPT, prompts: Sequence[Sequence[int]], **kwargs: Any
 ) -> list[list[int]]:
     """Ragged batches decoded independently, so EOS/padding never mix positions."""
-    return [generate(model, prompt, **kwargs) for prompt in prompts]  # type: ignore[arg-type]
+    return [generate(model, prompt, **kwargs) for prompt in prompts]

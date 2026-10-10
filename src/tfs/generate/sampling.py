@@ -26,7 +26,7 @@ def sample_next(
         if previous.ndim != 2 or previous.size(0) != scores.size(0):
             raise ValueError("previous must have matching batch size")
         for row in range(scores.size(0)):
-            used = previous[row].unique()
+            used = torch.unique(previous[row])
             values = scores[row, used]
             scores[row, used] = torch.where(
                 values < 0, values * repetition_penalty, values / repetition_penalty
