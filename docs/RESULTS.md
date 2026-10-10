@@ -31,3 +31,16 @@ The three corpora are repeated literals in bench/tokenizer.py. The benchmark use
 | Scaling, ablation seed variance, out-of-sample tokenizer comparison | TBD (not yet measured) |
 
 M0 parameter counts are structural predictions, not benchmarks. Report uncertainty and negative outcomes for all future data-dependent claims.
+
+## M8 CPU model pipeline smoke (measured)
+
+A **single optimizer step** on synthetic, hand-authored sentences; this verifies the data-to-training-to-generation wiring only. It does **not** demonstrate language quality, convergence, or dataset generalization. The validation sample contains only a few tiny documents and is not statistically significant.
+
+- Training step count: 1 (measured)
+- Unique model parameters: 1,271,808
+- Last training loss: 6.293098 nats/token
+- Validation loss: 6.221196 nats/token
+- Validation bits/token: 8.975288
+- Runner: Linux, Python 3.12.15, CPU count 4, CUDA=false
+- Source commit: `c067d398b3e116897607a7202fc055fdb84ff4b8`
+- Raw provenance: [results/demo-ci.json](../results/demo-ci.json). Regenerate via `python scripts/demo.py --profile tiny --steps 1 --output results/demo-ci.json --print-json`. Timing and stochastic training values may differ across systems.

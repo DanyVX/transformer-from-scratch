@@ -40,6 +40,14 @@ jobs:
         run: python bench/tokenizer.py --output results/tokenizer-smoke.json --print-json
       - name: Render benchmark table
         run: python results/render.py results/tokenizer-smoke.json
+      - name: One-step CPU model demo
+        run: python scripts/demo.py --profile tiny --steps 1 --output results/demo-ci.json --print-json
+      - name: Synthetic scaling smoke
+        run: |
+          python eval/study.py --study scaling --steps 2 --output results/scaling-ci.json --print-json
+          python results/study_render.py results/scaling-ci.json
+      - name: CPU KV-cache benchmark
+        run: python bench/kv_cache.py --output results/kv-cache-ci.json --print-json
 
   secrets:
     runs-on: ubuntu-latest

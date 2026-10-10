@@ -28,6 +28,7 @@ def main() -> None:
         "run",
         "docker-build",
         "clean",
+        "demo",
     )
     parser = argparse.ArgumentParser()
     parser.add_argument("task", choices=choices)
@@ -52,6 +53,8 @@ def main() -> None:
         run(python, "-m", "pytest", "-m", "not slow and not gpu and not network")
     elif args.task == "bench":
         run(python, "bench/tokenizer.py", "--output", "results/tokenizer-smoke.json")
+    elif args.task == "demo":
+        run(python, "scripts/demo.py", "--profile", "tiny")
     elif args.task == "run":
         run(python, "-m", "tfs", "config", "--profile", "tiny")
     elif args.task == "docker-build":
