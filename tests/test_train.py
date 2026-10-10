@@ -67,12 +67,16 @@ def test_refuse_config_mismatch(tmp_path) -> None:
 
 def test_nonfinite_loss_does_not_advance_step(tmp_path) -> None:
     trainer = _make_trainer()
+    path = tmp_path / "last_good.pt"
+    trainer.save(path)
     with torch.no_grad():
         trainer.model.wte.weight[0, 0] = float("nan")
     with pytest.raises(FloatingPointError, match="Nonfinite"):
-        trainer.train_steps(1, checkpoint=tmp_path / "last_good.pt")
+        trainer.train_steps(1, checkpoint=path)
     assert trainer.step == 0
-    assert (tmp_path / "last_good.pt").exists()
+    fresh = _make_trainer()
+    fresh.resume(path)
+    assert torch.isfinite(fresh.model.wte.weight).all()
 
 
 def test_gradient_accumulation_equivalence() -> None:

@@ -56,6 +56,9 @@ class Trainer:
         if steps < 0 or self.step + steps > self.config.train.max_steps:
             raise ValueError("Steps exceed scheduled training")
         self.model.train()
+        if checkpoint is not None and self.step == 0 and not checkpoint.exists():
+            if all(torch.isfinite(p).all() for p in self.model.parameters()):
+                self.save(checkpoint)
         start = time.perf_counter()
         for _ in range(steps):
             self.optimizer.zero_grad(set_to_none=True)
@@ -72,19 +75,17 @@ class Trainer:
                 targets = torch.from_numpy(y).long().to(self.device)
                 out = self.model(ids, targets)
                 if out.loss is None or not torch.isfinite(out.loss).all():
-                    if checkpoint is not None:
-                        self.save(checkpoint)
-                    raise FloatingPointError("Nonfinite training loss; last-good state saved")
+                    raise FloatingPointError("Nonfinite loss; prior checkpoint retained")
                 (out.loss / self.config.train.gradient_accumulation).backward()
                 total_loss += out.loss.item() / self.config.train.gradient_accumulation
             grad_norm = nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
             if not torch.isfinite(grad_norm):
-                if checkpoint is not None:
-                    self.save(checkpoint)
-                raise FloatingPointError("Nonfinite gradients; last-good state saved")
+                raise FloatingPointError("Nonfinite gradients; prior checkpoint retained")
             self.optimizer.step()
             self.step += 1
             self.losses.append(total_loss)
+            if checkpoint is not None:
+                self.save(checkpoint)
             if self.log_path is not None:
                 self._append_log(total_loss, lr, float(grad_norm))
         elapsed = time.perf_counter() - start
