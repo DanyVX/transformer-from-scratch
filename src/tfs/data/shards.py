@@ -5,6 +5,7 @@ import json
 import random
 from collections.abc import Callable, Sequence
 from pathlib import Path
+from typing import Any, cast
 
 import numpy as np
 
@@ -77,7 +78,7 @@ def save_token_shards(
     return manifest
 
 
-def load_shard(directory: Path, name: str, *, verify_checksum: bool = True) -> np.memmap:
+def load_shard(directory: Path, name: str, *, verify_checksum: bool = True) -> np.memmap[Any]:
     """Refuse truncated/corrupted data, unsafe paths, and missing manifests."""
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != 1:
@@ -106,7 +107,7 @@ class WindowSampler:
 
     def __init__(
         self,
-        tokens: np.ndarray,
+        tokens: np.ndarray[Any, Any],
         block_size: int,
         batch_size: int,
         seed: int = 42,
@@ -123,7 +124,7 @@ class WindowSampler:
         self.sequential = sequential
         self.cursor = 0
 
-    def next_batch(self) -> tuple[np.ndarray, np.ndarray]:
+    def next_batch(self) -> tuple[np.ndarray[Any, Any], np.ndarray[Any, Any]]:
         """Get X[t] and target[t]=raw[t+1], with no off-by-one shift."""
         upper = len(self.tokens) - self.block_size
         if self.sequential:
@@ -141,5 +142,9 @@ class WindowSampler:
         return {"cursor": self.cursor, "rng": self.rng.bit_generator.state}
 
     def load_state_dict(self, state: dict[str, object]) -> None:
-        self.cursor = int(state["cursor"])
-        self.rng.bit_generator.state = state["rng"]
+        cursor = state["cursor"]
+        rng_state = state["rng"]
+        if not isinstance(cursor, int) or not isinstance(rng_state, dict):
+            raise ValueError("Invalid sampler state")
+        self.cursor = cursor
+        self.rng.bit_generator.state = cast(dict[str, Any], rng_state)
