@@ -12,7 +12,9 @@ def rotate_half(x: Tensor) -> Tensor:
     return torch.stack((-odd, even), dim=-1).flatten(-2)
 
 
-def apply_rope(q: Tensor, k: Tensor, offset: int = 0, base: float = 10000.0) -> tuple[Tensor, Tensor]:
+def apply_rope(
+    q: Tensor, k: Tensor, offset: int = 0, base: float = 10000.0
+) -> tuple[Tensor, Tensor]:
     """Rotate (B, H, T, D) queries/keys using absolute token positions."""
     if q.shape != k.shape or q.ndim != 4 or q.shape[-1] % 2:
         raise ValueError("RoPE requires matching 4-D tensors with even head dimensions")
