@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from tfs.config import ModelConfig, PROFILE_NAMES, TrainConfig, load_profile
+from tfs.config import PROFILE_NAMES, ModelConfig, TrainConfig, load_profile
 
 
 @pytest.mark.parametrize("profile", PROFILE_NAMES)
