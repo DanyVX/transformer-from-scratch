@@ -17,9 +17,7 @@ def _output(command: list[str]) -> str | None:
     if shutil.which(command[0]) is None:
         return None
     try:
-        proc = subprocess.run(
-            command, capture_output=True, text=True, timeout=3, check=False
-        )
+        proc = subprocess.run(command, capture_output=True, text=True, timeout=3, check=False)
     except (OSError, subprocess.TimeoutExpired):
         return None
     return proc.stdout.strip() or proc.stderr.strip() or None

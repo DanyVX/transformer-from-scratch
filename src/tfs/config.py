@@ -85,9 +85,7 @@ class ExperimentConfig(BaseModel):
 class RuntimeSettings(BaseSettings):
     """Optional runtime overrides from .env and environment variables."""
 
-    model_config = SettingsConfigDict(
-        env_prefix="TFS_", env_file=".env", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_prefix="TFS_", env_file=".env", extra="ignore")
 
     profile: str = "tiny"
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"

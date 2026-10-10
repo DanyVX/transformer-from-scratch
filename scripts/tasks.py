@@ -18,8 +18,16 @@ def run(*command: str) -> None:
 
 def main() -> None:
     choices = (
-        "setup", "lint", "format", "typecheck", "test", "test-fast",
-        "bench", "run", "docker-build", "clean",
+        "setup",
+        "lint",
+        "format",
+        "typecheck",
+        "test",
+        "test-fast",
+        "bench",
+        "run",
+        "docker-build",
+        "clean",
     )
     parser = argparse.ArgumentParser()
     parser.add_argument("task", choices=choices)

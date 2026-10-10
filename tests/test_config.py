@@ -30,8 +30,14 @@ def test_invalid_heads_rejected() -> None:
 def test_invalid_schedule_rejected() -> None:
     with pytest.raises(ValidationError, match="warmup_steps"):
         TrainConfig(
-            device="cpu", batch_size=1, gradient_accumulation=1, max_steps=4,
-            warmup_steps=5, learning_rate=0.001, min_learning_rate=0.0, seed=0
+            device="cpu",
+            batch_size=1,
+            gradient_accumulation=1,
+            max_steps=4,
+            warmup_steps=5,
+            learning_rate=0.001,
+            min_learning_rate=0.0,
+            seed=0,
         )
 
 
@@ -47,7 +53,4 @@ def test_missing_profile_rejected(tmp_path: Path) -> None:
 
 def test_config_does_not_ignore_unknown_fields() -> None:
     with pytest.raises(ValidationError, match="extra_forbidden"):
-        ModelConfig(
-            vocab_size=256, block_size=4, n_layer=2, n_head=2,
-            n_embd=8, invented_flag=True
-        )
+        ModelConfig(vocab_size=256, block_size=4, n_layer=2, n_head=2, n_embd=8, invented_flag=True)
