@@ -1,5 +1,7 @@
 """Pre-LayerNorm GPT decoder block."""
 
+from typing import Literal
+
 from torch import Tensor, nn
 
 from tfs.model.attention import CausalSelfAttention, KVCache
@@ -14,8 +16,8 @@ class GPTBlock(nn.Module):
         context: int,
         dropout: float,
         bias: bool = True,
-        backend: str = "naive",
-        positional_encoding: str = "learned",
+        backend: Literal["naive", "sdpa"] = "naive",
+        positional_encoding: Literal["learned", "rope"] = "learned",
     ) -> None:
         super().__init__()
         self.ln_1 = nn.LayerNorm(width, eps=1e-5, elementwise_affine=True, bias=bias)
