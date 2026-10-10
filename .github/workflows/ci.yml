@@ -32,6 +32,19 @@ jobs:
         run: python scripts/tasks.py typecheck
       - name: Tests with coverage
         run: python scripts/tasks.py test
+      - name: Build wheel and validate packaged YAML profiles
+        run: |
+          python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /tmp/tfs-wheel
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          wheel = next(Path("/tmp/tfs-wheel").glob("*.whl"))
+          with ZipFile(wheel) as archive:
+              members = set(archive.namelist())
+          expected = {f"tfs/configs/{n}.yaml" for n in ("tiny", "small", "gpt2-124m")}
+          assert expected <= members, f"wheel missing: {sorted(expected - members)}"
+          print(f"Verified packaged YAML profiles in {wheel.name}")
+          PY
       - name: Audit dependencies
         run: python -m pip_audit
       - name: Smoke CLI
@@ -59,3 +72,23 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  hf-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install CPU-only reference testing dependencies
+        run: |
+          python -m pip install --upgrade pip 'setuptools>=83' wheel
+          python -m pip install 'torch==2.5.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e ".[model]" pytest==9.1.1 transformers==4.38.2
+      - name: Compare offline random HF GPT-2 reference logits
+        run: python -m pytest -q -s tests/test_hf_compat.py

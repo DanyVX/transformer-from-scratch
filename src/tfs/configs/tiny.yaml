@@ -1,0 +1,20 @@
+profile: tiny
+model:
+  vocab_size: 512
+  block_size: 128
+  n_layer: 6
+  n_head: 4
+  n_embd: 128
+  dropout: 0.0
+  bias: true
+  tie_embeddings: true
+  positional_encoding: learned
+train:
+  device: cpu
+  batch_size: 4
+  gradient_accumulation: 1
+  max_steps: 40
+  learning_rate: 0.0003
+  min_learning_rate: 0.00003
+  warmup_steps: 4
+  seed: 42

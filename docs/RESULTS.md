@@ -20,17 +20,20 @@ Synthetic corpus and a single short timing run. Do not extrapolate to large data
 
 The three corpora are repeated literals in bench/tokenizer.py. The benchmark used a tokenizer fitted on all three synthetic samples, a requested/effective vocabulary size of 360, and four encoding iterations per sample. These are **tiny in-sample throughput measurements**, not held-out compression or statistical evidence. Urdu is UTF-8 multibyte text, so bytes/token and tokens/character answer different questions.
 
-## Future milestones
+## Milestone verification
 
-| Metric | Result |
+| Check | Result |
 | --- | --- |
-| GPT-2 (124M) reference-logit matching | TBD (not yet measured) |
-| Causal-mask leakage test | TBD (not yet measured) |
-| KV-cache generation speedup | TBD (not yet measured) |
-| Tiny GPT validation loss and bits-per-character | TBD (not yet measured) |
-| Scaling, ablation seed variance, out-of-sample tokenizer comparison | TBD (not yet measured) |
+| Causal-mask and future-token isolation | Automated CPU tests passed |
+| Naive vs SDPA forward matching, KV-cache equivalence | Automated CPU tests passed |
+| Deterministic resume and checkpoint recovery | Automated CPU tests passed |
+| Tiny trained model validation loss | Measured below, synthetic one-step run |
+| Scaling and KV-cache speed | Measured below, short synthetic benchmarks |
+| Small randomized HF GPT-2 reference-logit match | **Passed**, max absolute difference 5.96046448×10⁻⁸ |
+| Released GPT-2 124M pretrained-logit match | **Not tested**, requires large externally supplied weights |
+| Real-data generalization and safety | **Not measured** |
 
-M0 parameter counts are structural predictions, not benchmarks. Report uncertainty and negative outcomes for all future data-dependent claims.
+All stored measurements correspond to their listed Git commit and runner. The repository's tests are updated over time, so a historical raw JSON result is not automatically a result from the latest source.
 
 ## M8 CPU model pipeline smoke (measured)
 
@@ -66,3 +69,7 @@ All values below are from `eval/study.py` and `bench/kv_cache.py`, recorded in [
 | 32 | 4.395 | 2.911 | 1.51× |
 
 To regenerate tables, run `python results/study_render.py results/scaling-ci.json`. For KV, inspect the measured JSON. No confidence interval is claimed with two timing repeats.
+
+## v0.1 offline randomly initialized Hugging Face GPT-2 reference test
+
+On the GitHub Actions [reference job](https://github.com/DanyVX/transformer-from-scratch/actions/runs/38048948620) at source commit `6adf6857b1f410e1ccbc4e72a00663c618e96775`, the small (2-layer, 32-width, 256-vocabulary) model and the independent Hugging Face GPT2LMHeadModel were run with seed 1234 and three deterministic prompts. The **observed maximum absolute logit difference was 5.96046448 × 10⁻⁸**; the test passed with a 1e-4 absolute/relative per-logit tolerance. Dependencies included transformers==4.38.2, torch==2.5.1+cpu and Python 3.11. No third-party model weights or external training data were downloaded. This **does not verify 124M released pretrained GPT-2 weights**, nor tokenizer ID equivalence with tiktoken.

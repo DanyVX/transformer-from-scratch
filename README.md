@@ -13,8 +13,9 @@ The demo trains the configured **tiny** model on a synthetic text corpus, then p
 | Experiment | Status |
 | --- | --- |
 | Byte-level BPE synthetic CPU throughput | [Measured, 3 corpora](docs/RESULTS.md) |
-| Initial model loss / bits-per-byte | Run scripts/demo.py or eval/study.py, record JSON |
-| GPT-2 (124M) pretrained reference-logit match | **TBD (not yet measured)** |
+| Synthetic CPU model train/validation loss | [One-step measured evidence](docs/RESULTS.md) |
+| Offline small randomly initialized HF GPT-2 logit parity | **Passed**, max absolute error 5.96×10⁻⁸ (see docs/RESULTS.md) |
+| GPT-2 (124M) pretrained reference-logit match | **Not measured**, user-provided licensed weights required |
 | RoPE / naive-vs-fused / cache equivalence | Covered in the CPU test suite |
 | KV-cache speedup | Measured synthetic CPU smoke: 1.32–1.60× at contexts 8/16/32, two repeats (see docs/RESULTS.md and raw JSON) |
 | Scaling and ablations | Measured 2-step scaling smoke (two seeds); ablation outcomes remain unmeasured; see docs/RESULTS.md |
@@ -89,7 +90,12 @@ The full GPT-2 124M pretrained-weight logit parity claim remains unverified beca
 
 ## Roadmap
 
-M0–M1: scaffolding and tokenizer. M2–M3: attention/GPT and reference mapping. M4–M6: data, training/resume, generation and KV cache. M7: synthetic small-scale studies and failure diary. M8: docs, reproducibility, CPU demo and pre-release. Future work: licensed datasets, true GPT-2 parity and hardware/GPU optimization.
+M0–M1: scaffolding and tokenizer. M2–M3: attention/GPT and reference mapping. M4–M6: data, training/resume, generation and KV cache. M7: synthetic small-scale studies and failure diary. M8: docs, reproducibility, CPU demo. v0.1 release hardening packages YAML configs and adds offline HF reference testing. Future work: licensed real-data benchmarks, pretrained 124M parity and hardware/GPU optimization.
+
+
+## Release v0.1.0
+
+[Release notes](docs/RELEASE_NOTES.md). Source and CPU-first smoke tests are the released artifact; **no trained model weights** are shipped. The release is not evidence of a production pretrained language model.
 
 ## License
 

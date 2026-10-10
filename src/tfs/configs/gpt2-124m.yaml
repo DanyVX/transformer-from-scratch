@@ -1,0 +1,20 @@
+profile: gpt2-124m
+model:
+  vocab_size: 50257
+  block_size: 1024
+  n_layer: 12
+  n_head: 12
+  n_embd: 768
+  dropout: 0.0
+  bias: true
+  tie_embeddings: true
+  positional_encoding: learned
+train:
+  device: cuda
+  batch_size: 1
+  gradient_accumulation: 1
+  max_steps: 1
+  learning_rate: 0.00001
+  min_learning_rate: 0.00001
+  warmup_steps: 0
+  seed: 42

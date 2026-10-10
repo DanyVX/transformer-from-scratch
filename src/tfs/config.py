@@ -39,7 +39,7 @@ class ModelConfig(BaseModel):
         return self
 
     def parameter_count(self) -> int:
-        """Predict parameters for future standard GPT-2-shaped model modules.
+        """Predict parameters for the configured decoder-only architecture.
 
         Each block: 12*C*C projection/MLP weights; two layer norms;
         9*C linear biases if enabled. The final layer norm is separate.
@@ -54,7 +54,7 @@ class ModelConfig(BaseModel):
 
 
 class TrainConfig(BaseModel):
-    """Small-step smoke training defaults; the training loop arrives in M5."""
+    """Validated training settings for the M5 trainer."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -100,12 +100,16 @@ class RuntimeSettings(BaseSettings):
 def load_profile(name: str, config_dir: Path | None = None) -> ExperimentConfig:
     """Load a checked-in YAML config with strict schema validation.
 
-    Default path is relative to the source checkout; wheel-only installation of
-    profiles is tracked as a limitation until profiles are bundled.
+    Prefer checkout YAML files, falling back to packaged YAML inside a wheel.
     """
     if name not in PROFILE_NAMES:
         raise ValueError(f"Unknown profile {name!r}; choose from {', '.join(PROFILE_NAMES)}")
-    root = config_dir if config_dir is not None else Path(__file__).resolve().parents[2] / "configs"
+    if config_dir is not None:
+        root = config_dir
+    else:
+        checkout = Path(__file__).resolve().parents[2] / "configs"
+        bundled = Path(__file__).resolve().parent / "configs"
+        root = checkout if checkout.is_dir() else bundled
     path = root / f"{name}.yaml"
     if not path.is_file():
         raise FileNotFoundError(f"Missing configuration: {path}")
