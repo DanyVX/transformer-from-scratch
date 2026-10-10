@@ -29,6 +29,7 @@ def test_result_writes_metadata_and_metrics_atomically(tmp_path: Path) -> None:
 def test_nan_results_rejected(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="Out of range float"):
         write_result(tmp_path / "bad.json", {"loss": float("nan")}, config={})
+    assert list(tmp_path.glob("*.tmp")) == []
 
 
 def test_cli_prints_profiles(capsys: pytest.CaptureFixture[str]) -> None:

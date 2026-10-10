@@ -23,8 +23,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         data = {"profiles": list(PROFILE_NAMES)}
     elif args.command == "config":
         profile = args.profile or RuntimeSettings().profile
-        data = load_profile(profile).model_dump(mode="json")
-        data["predicted_parameter_count"] = load_profile(profile).model.parameter_count()
+        experiment = load_profile(profile)
+        data = experiment.model_dump(mode="json")
+        data["predicted_parameter_count"] = experiment.model.parameter_count()
         data["parameter_count_measured"] = False
     else:
         data = environment_metadata()

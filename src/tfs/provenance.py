@@ -1,5 +1,6 @@
 """Safe, reproducible runtime metadata and atomic JSON result files."""
 
+import importlib
 import json
 import os
 import platform
@@ -30,7 +31,7 @@ def environment_metadata() -> dict[str, Any]:
     No usernames, home paths, environment values, raw inputs, or secrets are stored.
     """
     try:
-        import torch
+        torch = importlib.import_module("torch")
 
         torch_version = torch.__version__
         cuda_available = torch.cuda.is_available()
@@ -83,14 +84,20 @@ def write_result(path: Path, metrics: dict[str, Any], *, config: dict[str, Any])
         "config": config,
         "metrics": metrics,
     }
-    with tempfile.NamedTemporaryFile(
-        mode="w", encoding="utf-8", dir=path.parent,
-        prefix=f".{path.name}.", suffix=".tmp", delete=False
-    ) as tmp:
-        temp_name = tmp.name
-        json.dump(payload, tmp, indent=2, sort_keys=True, allow_nan=False)
-        tmp.write("\n")
+    temp_name: str | None = None
     try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as tmp:
+            temp_name = tmp.name
+            json.dump(payload, tmp, indent=2, sort_keys=True, allow_nan=False)
+            tmp.write("\n")
         os.replace(temp_name, path)
     finally:
-        Path(temp_name).unlink(missing_ok=True)
+        if temp_name is not None:
+            Path(temp_name).unlink(missing_ok=True)

@@ -4,7 +4,6 @@ Make is an optional thin wrapper, not a requirement for Windows users.
 """
 
 import argparse
-import importlib.util
 import shutil
 import subprocess
 import sys
