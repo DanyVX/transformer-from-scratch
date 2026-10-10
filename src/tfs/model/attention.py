@@ -68,9 +68,12 @@ class CausalSelfAttention(nn.Module):
 
         if past_kv is not None:
             old_k, old_v = past_kv
-            if (old_k.shape[:2] != (batch, self.n_head) or old_v.shape != old_k.shape
-                    or old_k.shape[-1] != self.n_embd // self.n_head
-                    or old_k.device != k.device):
+            if (
+                old_k.shape[:2] != (batch, self.n_head)
+                or old_v.shape != old_k.shape
+                or old_k.shape[-1] != self.n_embd // self.n_head
+                or old_k.device != k.device
+            ):
                 raise ValueError("Invalid or incompatible KV cache")
             k = torch.cat((old_k, k), dim=-2)
             v = torch.cat((old_v, v), dim=-2)
@@ -88,7 +91,10 @@ class CausalSelfAttention(nn.Module):
             attended = weights @ v
         else:
             attended = F.scaled_dot_product_attention(
-                q, k, v, attn_mask=allowed,
+                q,
+                k,
+                v,
+                attn_mask=allowed,
                 dropout_p=self.dropout if self.training else 0.0,
                 is_causal=False,
             )
