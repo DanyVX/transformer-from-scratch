@@ -4,8 +4,8 @@ from collections.abc import Sequence
 
 import torch
 
-from tfs.model.gpt import GPT
 from tfs.generate.sampling import sample_next
+from tfs.model.gpt import GPT
 
 
 @torch.inference_mode()
@@ -41,7 +41,9 @@ def generate(
     model.eval()
     try:
         window = sequence[-model.config.block_size:]
-        prediction = model(torch.tensor([window], device=device, dtype=torch.long), use_cache=use_cache)
+        prediction = model(
+            torch.tensor([window], device=device, dtype=torch.long), use_cache=use_cache
+        )
         cache = prediction.past_key_values
         for step in range(max_new_tokens):
             next_token = sample_next(

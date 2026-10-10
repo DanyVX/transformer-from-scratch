@@ -24,7 +24,11 @@ def run(context: int, repeats: int) -> dict[str, float | int]:
                 past = None
                 for index in range(context, context + 8):
                     if cache_on:
-                        ids = tokens[:, :context] if index == context else tokens[:, index - 1 : index]
+                        ids = (
+                            tokens[:, :context]
+                            if index == context
+                            else tokens[:, index - 1 : index]
+                        )
                         result = model(ids, past_key_values=past, use_cache=True)
                         past = result.past_key_values
                     else:
