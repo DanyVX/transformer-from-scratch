@@ -15,7 +15,7 @@ M0 validates configurations and reports runtime metadata. M1 adds a working BPE 
 | GPT-2 124M reference-logit agreement | TBD (not yet measured) |
 | Causal-mask leakage test | TBD (not yet measured) |
 | KV-cache speedup | TBD (not yet measured) |
-| Tokenizer tokens/second | TBD (not yet measured; synthetic benchmark script added in M1) |
+| Tokenizer tokens/second | Measured synthetic CPU smoke: English 329,857.3; Urdu 189,220.2; code 353,674.8 (see results/ JSON and docs/RESULTS.md) |
 | Validation loss / bits-per-character | TBD (not yet measured) |
 
 M0's displayed parameter counts are analytical predictions for the planned model, not training results.
