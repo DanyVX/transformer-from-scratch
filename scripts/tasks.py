@@ -51,7 +51,7 @@ def main() -> None:
     elif args.task == "test-fast":
         run(python, "-m", "pytest", "-m", "not slow and not gpu and not network")
     elif args.task == "bench":
-        raise SystemExit("No benchmark has been implemented (M1+). No numbers fabricated.")
+        run(python, "bench/tokenizer.py", "--output", "results/tokenizer-smoke.json")
     elif args.task == "run":
         run(python, "-m", "tfs", "config", "--profile", "tiny")
     elif args.task == "docker-build":

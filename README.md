@@ -6,7 +6,7 @@ A decoder-only GPT-style transformer and byte-level BPE tokenizer built from fir
 
 ## Demo
 
-TBD (not yet implemented). M0 only validates configurations and reports runtime metadata.
+M0 validates configurations and reports runtime metadata. M1 adds a working BPE tokenizer and a synthetic benchmark; no transformer model or text generation exists yet.
 
 ## Key results
 
@@ -15,7 +15,7 @@ TBD (not yet implemented). M0 only validates configurations and reports runtime 
 | GPT-2 124M reference-logit agreement | TBD (not yet measured) |
 | Causal-mask leakage test | TBD (not yet measured) |
 | KV-cache speedup | TBD (not yet measured) |
-| Tokenizer tokens/second | TBD (not yet measured) |
+| Tokenizer tokens/second | Measured synthetic CPU smoke: English 329,857.3; Urdu 189,220.2; code 353,674.8 (see results/ JSON and docs/RESULTS.md) |
 | Validation loss / bits-per-character | TBD (not yet measured) |
 
 M0's displayed parameter counts are analytical predictions for the planned model, not training results.
@@ -47,6 +47,8 @@ The eventual make demo training command is not implemented yet. These commands v
 - python scripts/tasks.py lint
 - python scripts/tasks.py typecheck
 - python scripts/tasks.py test
+- python scripts/tasks.py bench (measures the tokenizer on synthetic English, Urdu and code samples)
+- python -c "from tfs.tokenizer import ByteBPETokenizer; t = ByteBPETokenizer.train(['hello hello world'], 270); print(t.decode(t.encode('hello world')))"
 
 ## Configuration
 
@@ -62,7 +64,7 @@ See [decision log](docs/DESIGN.md) and [references](docs/REFERENCES.md).
 
 ## Limitations
 
-No tokenizer, model, training, inference, reference weight-loading, real benchmark, dataset or release exists in M0. See [limitations](docs/LIMITATIONS.md).
+M1 has a byte-level tokenizer, round-trip tests, and a synthetic benchmark script. No transformer model, training, inference, reference weight-loading, externally licensed dataset, or release exists yet. See [limitations](docs/LIMITATIONS.md).
 
 ## Roadmap
 

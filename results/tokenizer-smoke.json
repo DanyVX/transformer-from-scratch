@@ -1,0 +1,61 @@
+{
+  "config": {
+    "data": "synthetic strings in script",
+    "iterations": 4,
+    "profile": "synthetic-tokenizer-smoke",
+    "seed": 0,
+    "vocab_size_requested": 360
+  },
+  "environment": {
+    "architecture": "x86_64",
+    "cpu_count": 4,
+    "cuda_available": false,
+    "cuda_version": null,
+    "disk_free_bytes": 92001587200,
+    "docker_available": true,
+    "ffmpeg_available": false,
+    "git_available": true,
+    "git_commit": "80f22860301f8651c99a396d65d30f0c9996e9be",
+    "gpu": null,
+    "internet_access": "not tested (run network check separately)",
+    "memory_bytes": 16766414848,
+    "os": "Linux",
+    "pip_available": true,
+    "python": "3.12.15",
+    "torch": null,
+    "uv_available": false
+  },
+  "metrics": {
+    "corpora": {
+      "code": {
+        "bytes": 5040,
+        "bytes_per_token": 2.625,
+        "characters": 5040,
+        "seconds": 0.021714865000006967,
+        "tokens": 1920,
+        "tokens_per_character": 0.38095238095238093,
+        "tokens_per_second": 353674.7753208475
+      },
+      "english": {
+        "bytes": 5880,
+        "bytes_per_token": 3.2666666666666666,
+        "characters": 5880,
+        "seconds": 0.021827618999992637,
+        "tokens": 1800,
+        "tokens_per_character": 0.30612244897959184,
+        "tokens_per_second": 329857.3243376856
+      },
+      "urdu": {
+        "bytes": 9960,
+        "bytes_per_token": 5.928571428571429,
+        "characters": 5520,
+        "seconds": 0.03551418300000364,
+        "tokens": 1680,
+        "tokens_per_character": 0.30434782608695654,
+        "tokens_per_second": 189220.17718947135
+      }
+    },
+    "effective_vocab_size": 360
+  },
+  "schema_version": 1
+}
