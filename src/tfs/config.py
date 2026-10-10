@@ -28,6 +28,9 @@ class ModelConfig(BaseModel):
     bias: bool = True
     tie_embeddings: bool = True
     positional_encoding: Literal["learned", "rope"] = "learned"
+    normalization: Literal["pre", "post"] = "pre"
+    activation: Literal["gelu", "swiglu"] = "gelu"
+    scale_residual_init: bool = True
 
     @model_validator(mode="after")
     def validate_heads(self) -> "ModelConfig":
@@ -43,7 +46,8 @@ class ModelConfig(BaseModel):
         """
         c = self.n_embd
         norm_params = c * (2 if self.bias else 1)
-        block = 12 * c * c + 2 * norm_params + (9 * c if self.bias else 0)
+        extra_gate = 4 * c * c + (4 * c if self.bias else 0) if self.activation == "swiglu" else 0
+        block = 12 * c * c + 2 * norm_params + (9 * c if self.bias else 0) + extra_gate
         position = self.block_size * c if self.positional_encoding == "learned" else 0
         untied_head = 0 if self.tie_embeddings else self.vocab_size * c
         return self.vocab_size * c + position + self.n_layer * block + norm_params + untied_head

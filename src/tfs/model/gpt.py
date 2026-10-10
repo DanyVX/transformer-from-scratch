@@ -47,6 +47,8 @@ class GPT(nn.Module):
                 config.bias,
                 attention_backend,
                 config.positional_encoding,
+                config.normalization,
+                config.activation,
             )
             for _ in range(config.n_layer)
         )
@@ -54,6 +56,8 @@ class GPT(nn.Module):
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         self.apply(self._init_weights)
         for block in self.h:
+            if not config.scale_residual_init:
+                continue
             torch.nn.init.normal_(
                 block.attn.c_proj.weight,
                 mean=0.0,
