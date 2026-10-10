@@ -1,11 +1,9 @@
 """Reproducible CPU/GPU training with exact sampler and RNG resume."""
 
 import csv
-import math
 import random
 import time
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 import torch
