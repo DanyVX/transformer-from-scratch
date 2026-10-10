@@ -59,9 +59,7 @@ def test_truncated_or_changed_shard_detected(tmp_path) -> None:
 
 
 def test_large_vocab_uses_uint32(tmp_path) -> None:
-    manifest = save_token_shards(
-        tmp_path, {"train": ["x"]}, lambda _: [70_000], 100_000, 99_999
-    )
+    manifest = save_token_shards(tmp_path, {"train": ["x"]}, lambda _: [70_000], 100_000, 99_999)
     assert manifest["dtype"] == "<u4"
     assert load_shard(tmp_path, "train").dtype.itemsize == 4
 
