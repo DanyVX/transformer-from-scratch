@@ -11,6 +11,7 @@ from tfs.model.gpt import GPT
 @pytest.mark.slow
 def test_small_random_hf_gpt2_equivalence() -> None:
     transformers = pytest.importorskip("transformers")
+    torch.manual_seed(1234)
     hf_cfg = transformers.GPT2Config(
         vocab_size=256,
         n_positions=16,
@@ -27,8 +28,16 @@ def test_small_random_hf_gpt2_equivalence() -> None:
         ModelConfig(vocab_size=256, block_size=16, n_layer=2, n_head=4, n_embd=32, dropout=0.0)
     ).eval()
     load_gpt2_weights(model, reference)
-    tokens = torch.tensor([[1, 50, 2, 0, 53]])
+    prompts = [
+        torch.tensor([[1, 50, 2, 0, 53]]),
+        torch.tensor([[17]]),
+        torch.tensor([[11, 14, 16, 18, 21, 23, 27, 3, 0, 7, 8, 9]]),
+    ]
+    worst_error = 0.0
     with torch.no_grad():
-        expected = reference(tokens).logits
-        actual = model(tokens).logits
-    torch.testing.assert_close(actual, expected, atol=1e-4, rtol=1e-4)
+        for tokens in prompts:
+            expected = reference(tokens).logits
+            actual = model(tokens).logits
+            worst_error = max(worst_error, float((actual - expected).abs().max().item()))
+            torch.testing.assert_close(actual, expected, atol=1e-4, rtol=1e-4)
+    print(f"HF_RANDOMIZED_MAX_LOGIT_ERROR={worst_error:.9g}")
