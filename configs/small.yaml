@@ -1,0 +1,20 @@
+profile: small
+model:
+  vocab_size: 8192
+  block_size: 256
+  n_layer: 8
+  n_head: 6
+  n_embd: 384
+  dropout: 0.1
+  bias: true
+  tie_embeddings: true
+  positional_encoding: learned
+train:
+  device: cuda
+  batch_size: 8
+  gradient_accumulation: 4
+  max_steps: 10000
+  learning_rate: 0.0003
+  min_learning_rate: 0.00003
+  warmup_steps: 200
+  seed: 42
