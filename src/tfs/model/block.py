@@ -20,8 +20,13 @@ class GPTBlock(nn.Module):
         super().__init__()
         self.ln_1 = nn.LayerNorm(width, eps=1e-5, elementwise_affine=True, bias=bias)
         self.attn = CausalSelfAttention(
-            width, heads, context, dropout=dropout, bias=bias,
-            backend=backend, positional_encoding=positional_encoding,
+            width,
+            heads,
+            context,
+            dropout=dropout,
+            bias=bias,
+            backend=backend,
+            positional_encoding=positional_encoding,
         )
         self.ln_2 = nn.LayerNorm(width, eps=1e-5, elementwise_affine=True, bias=bias)
         self.mlp = GPTMLP(width, dropout, bias=bias)

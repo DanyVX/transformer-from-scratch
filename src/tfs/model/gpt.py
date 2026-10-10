@@ -34,13 +34,19 @@ class GPT(nn.Module):
         self.wte = nn.Embedding(config.vocab_size, config.n_embd)
         self.wpe: nn.Embedding | None = (
             nn.Embedding(config.block_size, config.n_embd)
-            if config.positional_encoding == "learned" else None
+            if config.positional_encoding == "learned"
+            else None
         )
         self.drop = nn.Dropout(config.dropout)
         self.h = nn.ModuleList(
             GPTBlock(
-                config.n_embd, config.n_head, config.block_size, config.dropout,
-                config.bias, attention_backend, config.positional_encoding
+                config.n_embd,
+                config.n_head,
+                config.block_size,
+                config.dropout,
+                config.bias,
+                attention_backend,
+                config.positional_encoding,
             )
             for _ in range(config.n_layer)
         )
@@ -50,11 +56,13 @@ class GPT(nn.Module):
         for block in self.h:
             torch.nn.init.normal_(
                 block.attn.c_proj.weight,
-                mean=0.0, std=0.02 / (2 * config.n_layer) ** 0.5,
+                mean=0.0,
+                std=0.02 / (2 * config.n_layer) ** 0.5,
             )
             torch.nn.init.normal_(
                 block.mlp.c_proj.weight,
-                mean=0.0, std=0.02 / (2 * config.n_layer) ** 0.5,
+                mean=0.0,
+                std=0.02 / (2 * config.n_layer) ** 0.5,
             )
         if config.tie_embeddings:
             self.lm_head.weight = self.wte.weight
