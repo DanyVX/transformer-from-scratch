@@ -41,8 +41,9 @@ def save_checkpoint(path: Path, state: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary: str | None = None
     try:
-        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=f".{path.name}.",
-                                         suffix=".tmp", delete=False) as handle:
+        with tempfile.NamedTemporaryFile(
+            dir=path.parent, prefix=f".{path.name}.", suffix=".tmp", delete=False
+        ) as handle:
             temporary = handle.name
         torch.save(state, temporary)
         os.replace(temporary, path)
