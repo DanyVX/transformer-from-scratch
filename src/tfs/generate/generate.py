@@ -79,8 +79,6 @@ def generate(
         model.train(was_training)
 
 
-def generate_batch(
-    model: GPT, prompts: Sequence[Sequence[int]], **kwargs: Any
-) -> list[list[int]]:
+def generate_batch(model: GPT, prompts: Sequence[Sequence[int]], **kwargs: Any) -> list[list[int]]:
     """Ragged batches decoded independently, so EOS/padding never mix positions."""
     return [generate(model, prompt, **kwargs) for prompt in prompts]
