@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.10
+    hooks:
+      - id: ruff
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: typecheck
+        name: Mypy strict
+        entry: python -m mypy
+        language: system
+        pass_filenames: false
+      - id: cpu-tests
+        name: CPU tests
+        entry: python -m pytest -m "not slow and not gpu and not network"
+        language: system
+        pass_filenames: false
+      - id: secret-scan
+        name: gitleaks (requires local binary)
+        entry: gitleaks detect --source . --no-git
+        language: system
+        pass_filenames: false
