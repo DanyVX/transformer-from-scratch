@@ -38,8 +38,10 @@ def main() -> None:
         metrics[label] = {
             "tokens": token_count,
             "bytes": len(sample.encode("utf-8")),
+            "characters": len(sample),
             "tokens_per_second": iterations * token_count / elapsed,
             "bytes_per_token": len(sample.encode("utf-8")) / token_count,
+            "tokens_per_character": token_count / len(sample),
             "seconds": elapsed,
         }
 
