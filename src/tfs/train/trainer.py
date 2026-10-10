@@ -36,8 +36,11 @@ class Trainer:
     """M5 trainer; config and sample stream are part of the resume contract."""
 
     def __init__(
-        self, model: GPT, train_sampler: WindowSampler,
-        config: ExperimentConfig, device: str = "cpu",
+        self,
+        model: GPT,
+        train_sampler: WindowSampler,
+        config: ExperimentConfig,
+        device: str = "cpu",
         log_path: Path | None = None,
     ) -> None:
         self.device = torch.device(device)
@@ -63,8 +66,11 @@ class Trainer:
         for _ in range(steps):
             self.optimizer.zero_grad(set_to_none=True)
             lr = learning_rate(
-                self.step, self.config.train.max_steps, self.config.train.warmup_steps,
-                self.config.train.learning_rate, self.config.train.min_learning_rate
+                self.step,
+                self.config.train.max_steps,
+                self.config.train.warmup_steps,
+                self.config.train.learning_rate,
+                self.config.train.min_learning_rate,
             )
             for group in self.optimizer.param_groups:
                 group["lr"] = lr
@@ -92,10 +98,15 @@ class Trainer:
         if self.log_path is not None and steps:
             write_result(
                 self.log_path.with_suffix(".json"),
-                {"steps_completed": self.step, "last_loss": self.losses[-1],
-                 "tokens_per_second": steps * self.config.train.batch_size *
-                 self.config.train.gradient_accumulation * self.config.model.block_size /
-                 max(elapsed, 1e-9)},
+                {
+                    "steps_completed": self.step,
+                    "last_loss": self.losses[-1],
+                    "tokens_per_second": steps
+                    * self.config.train.batch_size
+                    * self.config.train.gradient_accumulation
+                    * self.config.model.block_size
+                    / max(elapsed, 1e-9),
+                },
                 config=self.config.model_dump(mode="json"),
             )
         return self.losses
@@ -112,15 +123,18 @@ class Trainer:
             writer.writerow([self.step, loss, rate, norm])
 
     def save(self, path: Path) -> None:
-        save_checkpoint(path, {
-            "fingerprint": self.fingerprint,
-            "step": self.step,
-            "model": self.model.state_dict(),
-            "optimizer": self.optimizer.state_dict(),
-            "sampler": self.sampler.state_dict(),
-            "rng": capture_rng(),
-            "losses": self.losses.copy(),
-        })
+        save_checkpoint(
+            path,
+            {
+                "fingerprint": self.fingerprint,
+                "step": self.step,
+                "model": self.model.state_dict(),
+                "optimizer": self.optimizer.state_dict(),
+                "sampler": self.sampler.state_dict(),
+                "rng": capture_rng(),
+                "losses": self.losses.copy(),
+            },
+        )
 
     def resume(self, path: Path) -> None:
         state = load_checkpoint(path, self.fingerprint)

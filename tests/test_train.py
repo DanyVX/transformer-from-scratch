@@ -16,9 +16,14 @@ def experiment() -> ExperimentConfig:
         profile="test",
         model=ModelConfig(vocab_size=256, block_size=4, n_layer=1, n_head=2, n_embd=16),
         train=TrainConfig(
-            batch_size=2, gradient_accumulation=2, max_steps=6,
-            learning_rate=0.004, min_learning_rate=0.0004, warmup_steps=2, seed=19,
-        )
+            batch_size=2,
+            gradient_accumulation=2,
+            max_steps=6,
+            learning_rate=0.004,
+            min_learning_rate=0.0004,
+            warmup_steps=2,
+            seed=19,
+        ),
     )
 
 
