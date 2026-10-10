@@ -13,3 +13,14 @@
 - The bench task intentionally fails until a real measurement script exists.
 - No fairness/bias evaluations or dataset splits exist yet.
 - All project-spec numerical edge cases remain open until the corresponding implementation milestone.
+
+## M1 tokenizer limitations
+
+- Tokenizer training recounts pair frequencies across all pieces after every merge. It is correct for small corpora but not tuned for massive training corpora.
+- Unicode text is not normalized. This preserves original input but may reduce compression for canonically equivalent spellings.
+- Model serialization writes JSON and merges.txt separately and does not yet use an atomic directory swap.
+- A vocabulary can end up smaller than requested when the supplied corpus contains no more mergeable pairs.
+- No real GPT-2 merge-rank import, tiktoken token-level parity, or third-party tokenizer reference benchmark has been run.
+- Unicode Urdu/Arabic compression on synthetic samples will not establish general-language efficiency.
+- String decode replaces malformed UTF-8 by default; use decode_bytes for exact arbitrary-byte reconstruction.
+- Heavy/real-world tokenizer benchmarks and long-corpus training throughput are outstanding.
