@@ -78,7 +78,7 @@ def save_token_shards(
     return manifest
 
 
-def load_shard(directory: Path, name: str, *, verify_checksum: bool = True) -> np.memmap[Any]:
+def load_shard(directory: Path, name: str, *, verify_checksum: bool = True) -> np.memmap[Any, Any]:
     """Refuse truncated/corrupted data, unsafe paths, and missing manifests."""
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     if manifest.get("schema") != 1:
