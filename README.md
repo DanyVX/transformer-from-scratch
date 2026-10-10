@@ -16,8 +16,8 @@ The demo trains the configured **tiny** model on a synthetic text corpus, then p
 | Initial model loss / bits-per-byte | Run scripts/demo.py or eval/study.py, record JSON |
 | GPT-2 (124M) pretrained reference-logit match | **TBD (not yet measured)** |
 | RoPE / naive-vs-fused / cache equivalence | Covered in the CPU test suite |
-| KV-cache speedup | Run bench/kv_cache.py to measure; no unexecuted number claimed |
-| Scaling and ablations | Run eval/study.py; two seeds per variant, toy synthetic data |
+| KV-cache speedup | Measured synthetic CPU smoke: 1.32–1.60× at contexts 8/16/32, two repeats (see docs/RESULTS.md and raw JSON) |
+| Scaling and ablations | Measured 2-step scaling smoke (two seeds); ablation outcomes remain unmeasured; see docs/RESULTS.md |
 
 ## Why this exists
 

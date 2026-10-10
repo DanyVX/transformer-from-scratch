@@ -1,0 +1,48 @@
+{
+  "config": {
+    "repeats": 2,
+    "seed": 9
+  },
+  "environment": {
+    "architecture": "x86_64",
+    "cpu_count": 4,
+    "cuda_available": false,
+    "cuda_version": null,
+    "disk_free_bytes": 90930016256,
+    "docker_available": true,
+    "ffmpeg_available": false,
+    "git_available": true,
+    "git_commit": "344df54bbe0fb0762989d6286646b80b2c9c3259",
+    "gpu": null,
+    "internet_access": "not tested (run network check separately)",
+    "memory_bytes": 16765378560,
+    "os": "Linux",
+    "pip_available": true,
+    "python": "3.12.15",
+    "torch": "2.5.1+cpu",
+    "uv_available": false
+  },
+  "metrics": {
+    "timings": [
+      {
+        "cached_seconds": 0.0028680209999976114,
+        "context": 8,
+        "full_seconds": 0.00459579500000018,
+        "speedup": 1.602427248616383
+      },
+      {
+        "cached_seconds": 0.0027469469999985563,
+        "context": 16,
+        "full_seconds": 0.0036139605000045094,
+        "speedup": 1.3156280408782581
+      },
+      {
+        "cached_seconds": 0.002910681499997736,
+        "context": 32,
+        "full_seconds": 0.004395152999997265,
+        "speedup": 1.5100082231603436
+      }
+    ]
+  },
+  "schema_version": 1
+}

@@ -44,3 +44,25 @@ A **single optimizer step** on synthetic, hand-authored sentences; this verifies
 - Runner: Linux, Python 3.12.15, CPU count 4, CUDA=false
 - Source commit: `c067d398b3e116897607a7202fc055fdb84ff4b8`
 - Raw provenance: [results/demo-ci.json](../results/demo-ci.json). Regenerate via `python scripts/demo.py --profile tiny --steps 1 --output results/demo-ci.json --print-json`. Timing and stochastic training values may differ across systems.
+
+## M7/M8 measured synthetic scaling and KV-cache smoke
+
+All values below are from `eval/study.py` and `bench/kv_cache.py`, recorded in [scaling-ci.json](../results/scaling-ci.json) and [kv-cache-ci.json](../results/kv-cache-ci.json). CI environment: Linux, Python 3.12.15, CPU count 4, CUDA=false; source commit `344df54bbe0fb0762989d6286646b80b2c9c3259`.
+
+**Scaling smoke**: two fixed seeds (11,29), two optimizer steps per run, synthetic repeated English/code text. The apparent lower bits/byte at larger widths is **not** a statistically supported scaling law.
+
+| Model | Parameters | Mean validation bits/byte | Seeds |
+| --- | ---: | ---: | ---: |
+| width16_layers1 | 7,536 | 7.9607 | 2 |
+| width24_layers2 | 20,832 | 7.9068 | 2 |
+| width32_layers3 | 46,624 | 7.8356 | 2 |
+
+**Incremental KV-cache smoke**: the reported speedups are full-prefix wall time divided by cached wall time, with only two repeats. They are noisy and not transferable to other CPUs, GPUs, or context lengths.
+
+| Prompt context length | Full recompute (ms) | KV cached (ms) | Observed speedup |
+| --- | ---: | ---: | ---: |
+| 8 | 4.596 | 2.868 | 1.60× |
+| 16 | 3.614 | 2.747 | 1.32× |
+| 32 | 4.395 | 2.911 | 1.51× |
+
+To regenerate tables, run `python results/study_render.py results/scaling-ci.json`. For KV, inspect the measured JSON. No confidence interval is claimed with two timing repeats.
