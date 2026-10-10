@@ -15,14 +15,18 @@ def load_gpt2_weights(target: GPT, source: Any) -> None:
     """Copy official GPT-2 architecture tensors and transpose HF Conv1D matrices."""
     c = target.config
     if (
-        c.positional_encoding != "learned" or not c.tie_embeddings or not c.bias
+        c.positional_encoding != "learned"
+        or not c.tie_embeddings
+        or not c.bias
         or target.wpe is None
     ):
         raise ValueError("HF GPT-2 mapping needs learned positions, bias and tied embeddings")
     hf_config = source.config
     if (
-        c.vocab_size != hf_config.vocab_size or c.block_size != hf_config.n_positions
-        or c.n_embd != hf_config.n_embd or c.n_head != hf_config.n_head
+        c.vocab_size != hf_config.vocab_size
+        or c.block_size != hf_config.n_positions
+        or c.n_embd != hf_config.n_embd
+        or c.n_head != hf_config.n_head
         or c.n_layer != hf_config.n_layer
     ):
         raise ValueError("HF reference dimensions differ from target configuration")
