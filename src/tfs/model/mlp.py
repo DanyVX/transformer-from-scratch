@@ -1,5 +1,7 @@
 """GPT-2's feed-forward expansion with approximate GELU."""
 
+from typing import cast
+
 from torch import Tensor, nn
 from torch.nn import functional as F
 
@@ -12,4 +14,4 @@ class GPTMLP(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x: Tensor) -> Tensor:
-        return self.dropout(self.c_proj(F.gelu(self.c_fc(x), approximate="tanh")))
+        return cast(Tensor, self.dropout(self.c_proj(F.gelu(self.c_fc(x), approximate="tanh"))))
