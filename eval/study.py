@@ -172,7 +172,10 @@ def main() -> None:
     )
     print(f"Saved {len(trials)} measured trials: {args.output}")
     if args.print_json:
-        print("SCALING_STUDY_JSON=" + json.dumps(json.loads(args.output.read_text(encoding="utf-8"))))
+        print(
+            "SCALING_STUDY_JSON="
+            + json.dumps(json.loads(args.output.read_text(encoding="utf-8")))
+        )
 
 
 if __name__ == "__main__":
